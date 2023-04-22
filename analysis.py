@@ -18,8 +18,8 @@ b = target.to_numpy()
 # print('target: ',target.shape)
 # print(target)
 dim = a.shape[1]
-n = b.shape[0]
-
+# n = b.shape[0]
+n = 5000
 
 def sag(iter, alpha):
     x = np.zeros(dim)
@@ -82,11 +82,11 @@ def df(i, x):
         # print('a: ',a.shape)
         # print('x: ',x.shape)
         # print('b: ',b.shape)
-        res[k] = 2 * (a[i][k] * x[k] - b[k]) * a[i][k]
+        res[k] = 2 * a[i][1] * (a[i][k] * x[k] - b[i])
     return res
 
 
-sag(20, 10)
-# sg(20, 1/2)
+sag(1000, 1/10)
+sg(1000, 1/10)
 plt.legend()
 plt.show()
