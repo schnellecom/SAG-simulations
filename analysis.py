@@ -18,8 +18,8 @@ b = target.to_numpy()
 # print('target: ',target.shape)
 # print(target)
 dim = a.shape[1]
-# n = b.shape[0]
-n = 5000
+n = b.shape[0]
+# n = 5000
 
 def sag(iter, alpha):
     x = np.zeros(dim)
