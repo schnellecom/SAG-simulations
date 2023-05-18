@@ -21,6 +21,7 @@ dim = a.shape[1]
 n = b.shape[0]
 n = 5000
 
+
 def sag(iter, alpha):
     x = np.zeros(dim)
     d = np.zeros(dim)
@@ -40,7 +41,7 @@ def sag(iter, alpha):
         curr = 0
         for j in range(1, n):
             curr += f(j, x)
-        curr = curr/n
+        curr = curr / n
         plotdata.append(curr)
     plt.plot(range(1, iter), plotdata, label="SAG")
     print('\n')
@@ -54,17 +55,18 @@ def sg(iter, alpha):
     for k in range(1, iter):
         print('\rSG iteration: ', k, '/', iter, end="")
         i = random.randint(1, n)
-        x = x - alpha*df(i, x)
+        x = x - alpha * df(i, x)
 
         # calculate what we want to minimize:
         curr = 0
         for j in range(1, n):
             curr += f(j, x)
-        curr = curr/n
+        curr = curr / n
         plotdata.append(curr)
     plt.plot(range(1, iter), plotdata, label="SG")
     print('\n')
     return x
+
 
 def fg(iter, alpha):
     x = np.zeros(dim)
@@ -73,15 +75,15 @@ def fg(iter, alpha):
     for k in range(1, iter):
         print('\rFG iteration: ', k, '/', iter, end="")
         grd = 0.
-        for i in range(1,n):
-            grd = grd+df(i, x)
-        x = x - alpha/n*grd
+        for i in range(1, n):
+            grd = grd + df(i, x)
+        x = x - alpha / n * grd
 
         # calculate what we want to minimize:
         curr = 0
         for j in range(1, n):
             curr += f(j, x)
-        curr = curr/n
+        curr = curr / n
         plotdata.append(curr)
     plt.plot(range(1, iter), plotdata, label="FG")
     print('\n')
@@ -109,8 +111,12 @@ def df(i, x):
     return res
 
 
-sag(100, 1/10)
-sg(100, 1/10)
-fg(100, 1/10)
+iters = 100
+alpha = 1 / 10
+sag(iters, alpha)
+sg(iters, alpha)
+fg(iters, alpha)
 plt.legend()
+name = 'SAG-sim-'+str(iters)+'-'+str(alpha)+'.png'
+plt.savefig(name, dpi=600)
 plt.show()
