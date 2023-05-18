@@ -19,7 +19,7 @@ b = target.to_numpy()
 # print(target)
 dim = a.shape[1]
 n = b.shape[0]
-# n = 5000
+n = 5000
 
 def sag(iter, alpha):
     x = np.zeros(dim)
@@ -43,6 +43,7 @@ def sag(iter, alpha):
         curr = curr/n
         plotdata.append(curr)
     plt.plot(range(1, iter), plotdata, label="SAG")
+    print('\n')
     return x
 
 
@@ -62,6 +63,28 @@ def sg(iter, alpha):
         curr = curr/n
         plotdata.append(curr)
     plt.plot(range(1, iter), plotdata, label="SG")
+    print('\n')
+    return x
+
+def fg(iter, alpha):
+    x = np.zeros(dim)
+    plotdata = []
+
+    for k in range(1, iter):
+        print('\rFG iteration: ', k, '/', iter, end="")
+        grd = 0.
+        for i in range(1,n):
+            grd = grd+df(i, x)
+        x = x - alpha/n*grd
+
+        # calculate what we want to minimize:
+        curr = 0
+        for j in range(1, n):
+            curr += f(j, x)
+        curr = curr/n
+        plotdata.append(curr)
+    plt.plot(range(1, iter), plotdata, label="FG")
+    print('\n')
     return x
 
 
@@ -86,7 +109,8 @@ def df(i, x):
     return res
 
 
-sag(1000, 1/10)
-sg(1000, 1/10)
+sag(100, 1/10)
+sg(100, 1/10)
+fg(100, 1/10)
 plt.legend()
 plt.show()
