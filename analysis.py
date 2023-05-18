@@ -19,7 +19,7 @@ b = target.to_numpy()
 # print(target)
 dim = a.shape[1]
 n = b.shape[0]
-n = 5000
+# n = 5000
 
 
 def sag(iter, alpha):
@@ -111,7 +111,7 @@ def df(i, x):
     return res
 
 
-iters = 100
+iters = 10000
 alpha = 1 / 10
 sag(iters, alpha)
 sg(iters, alpha)
