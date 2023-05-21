@@ -19,6 +19,8 @@ b = target.to_numpy()
 # print(target)
 dim = a.shape[1]
 n = b.shape[0]
+
+
 # n = 5000
 
 
@@ -36,8 +38,8 @@ def sag(iter, alpha):
         i = random.randint(1, n)
         d = d - y[i] + df(i, x)
         y[i] = df(i, x)
-        x = x - ((1/round) / n) * d
-        round = round+1
+        x = x - ((1 / round) / n) * d
+        round = round + 1
 
         # calculate what we want to minimize:
         curr = 0
@@ -46,6 +48,7 @@ def sag(iter, alpha):
         curr = curr / n
         plotdata.append(curr)
     plt.plot(range(1, iter), plotdata, label="SAG")
+    print('\r', iter, 'SAG iterations finished/', end="")
     print('\n')
     return x
 
@@ -58,8 +61,8 @@ def sg(iter, alpha):
     for k in range(1, iter):
         print('\rSG iteration: ', k, '/', iter, end="")
         i = random.randint(1, n)
-        x = x - (1/round) * df(i, x)
-        round = round+1
+        x = x - (1 / round) * df(i, x)
+        round = round + 1
 
         # calculate what we want to minimize:
         curr = 0
@@ -68,6 +71,7 @@ def sg(iter, alpha):
         curr = curr / n
         plotdata.append(curr)
     plt.plot(range(1, iter), plotdata, label="SG")
+    print('\r', iter, 'SG iterations finished/', end="")
     print('\n')
     return x
 
@@ -82,8 +86,8 @@ def fg(iter, alpha):
         grd = 0.
         for i in range(1, n):
             grd = grd + df(i, x)
-        x = x - (1/round) / n * grd
-        round = round+1
+        x = x - (1 / round) / n * grd
+        round = round + 1
 
         # calculate what we want to minimize:
         curr = 0
@@ -92,6 +96,7 @@ def fg(iter, alpha):
         curr = curr / n
         plotdata.append(curr)
     plt.plot(range(1, iter), plotdata, label="FG")
+    print('\r', iter, 'FG iterations finished/', end="")
     print('\n')
     return x
 
@@ -123,6 +128,6 @@ sag(iters, alpha)
 sg(iters, alpha)
 fg(iters, alpha)
 plt.legend()
-name = 'SAG-sim-'+str(iters)+'-'+str(alpha)+'.png'
+name = 'SAG-sim-' + str(iters) + '-' + str(alpha) + '.png'
 plt.savefig(name, dpi=600)
 plt.show()
