@@ -26,7 +26,7 @@ def sag(iter, alpha):
     x = np.zeros(dim)
     d = np.zeros(dim)
     y = []
-    iter = 1
+    round = 1
     for i in range(1, n):
         y.append(numpy.zeros(dim))
     plotdata = []
@@ -36,8 +36,8 @@ def sag(iter, alpha):
         i = random.randint(1, n)
         d = d - y[i] + df(i, x)
         y[i] = df(i, x)
-        x = x - ((1/iter) / n) * d
-        iter = iter+1
+        x = x - ((1/round) / n) * d
+        round = round+1
 
         # calculate what we want to minimize:
         curr = 0
@@ -53,13 +53,13 @@ def sag(iter, alpha):
 def sg(iter, alpha):
     x = np.zeros(dim)
     plotdata = []
-    iter = 1
+    round = 1
 
     for k in range(1, iter):
         print('\rSG iteration: ', k, '/', iter, end="")
         i = random.randint(1, n)
-        x = x - (1/iter) * df(i, x)
-        iter = iter+1
+        x = x - (1/round) * df(i, x)
+        round = round+1
 
         # calculate what we want to minimize:
         curr = 0
@@ -75,15 +75,15 @@ def sg(iter, alpha):
 def fg(iter, alpha):
     x = np.zeros(dim)
     plotdata = []
-    iter = 1
+    round = 1
 
     for k in range(1, iter):
         print('\rFG iteration: ', k, '/', iter, end="")
         grd = 0.
         for i in range(1, n):
             grd = grd + df(i, x)
-        x = x - (1/iter) / n * grd
-        iter = iter+1
+        x = x - (1/round) / n * grd
+        round = round+1
 
         # calculate what we want to minimize:
         curr = 0
