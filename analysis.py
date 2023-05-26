@@ -5,6 +5,7 @@ import numpy
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
+from numpy import double
 
 data = pd.read_csv('data/phy_train.dat', sep='\t', header=None, usecols=[i for i in range(2, 80)])
 # data = data.transpose()
@@ -50,7 +51,7 @@ def sag(iter, initalL):
 
     for k in range(1, iter):
         print('\rSAG iteration: ', k, '/', iter, end="")
-        i = random.randint(1, n)
+        i = random.randint(0, n-1)
 
         # calculate step size
         if lipschitzEstimate(L, i, k, x):
@@ -58,7 +59,7 @@ def sag(iter, initalL):
 
         d = d - y[i] + df(i, x)
         y[i] = df(i, x)
-        x = x - ((stepSize(L)) / n) * d
+        x = x - stepSize(L) * d
         round = round + 1
 
         # calculate what we want to minimize:
@@ -76,7 +77,6 @@ def sag(iter, initalL):
 def sg(iter, initialL):
     x = np.zeros(dim)
     plotdata = []
-    round = 1
     L = initialL
 
     for k in range(1, iter):
@@ -85,8 +85,7 @@ def sg(iter, initialL):
         # calculate step size
         if lipschitzEstimate(L, i, k, x):
             L = L * 2
-        x = x - (stepSize(L)) * df(i, x)
-        round = round + 1
+        x = x - 1/k * df(i, x)
 
         # calculate what we want to minimize:
         curr = 0
@@ -94,41 +93,39 @@ def sg(iter, initialL):
             curr += f(j, x)
         curr = curr / n
         plotdata.append(curr)
-    plt.plot(range(1, iter), plotdata, label="SG")
+    plt.semilogy(range(1, iter), plotdata, label="SG")
     print('\r', iter, 'SG iterations finished', end="")
     print('\n')
     return x
 
 
-def fg(iter, initalL):
-    x = np.zeros(dim)
+def fg(nIter, initalL):
+    x = np.ones(dim)
     plotdata = []
-    round = 1
-    L = initalL
+    lipConst = initalL
 
-    for k in range(1, iter):
-        print('\rFG iteration: ', k, '/', iter, end="")
+    for k in range(1, nIter + 1):
+        print('\rFG iteration: ', k, '/', nIter, end="")
         updateL = True
         grd = np.zeros(dim)
-        for i in range(1, n):
-            grd = grd + df(i, x)
+        for i in range(n):
+            grd += df(i, x)
             # calculate step size
-            if not lipschitzEstimate(L, i, k, x):
-                updateL = False
+            # if not lipschitzEstimate(lipConst, i, k, x):
+            #     updateL = False
         grd = (1/n)*grd
-        if updateL:
-            L = L * 2
-        x = x - stepSize(L) * grd
-        round = round + 1
+        # if updateL:
+        #     lipConst = lipConst * pow(2, (-1 / n))
+        x = x - 1/k * grd
 
         # calculate what we want to minimize:
         curr = 0
-        for j in range(1, n):
+        for j in range(n):
             curr += f(j, x)
         curr = curr / n
         plotdata.append(curr)
-    plt.plot(range(1, iter), plotdata, label="FG")
-    print('\r', iter, 'FG iterations finished', end="")
+    plt.semilogy(range(1, nIter+1), plotdata, label="FG")
+    print('\r', nIter, 'FG iterations finished', end="")
     print('\n')
     return x
 
@@ -136,28 +133,31 @@ def fg(iter, initalL):
 def f(i, x):
     res = 0
     # calculate the vector product piecewise
-    for k in range(1, dim):
-        res = res + a[i][k] * x[k]
-    res = res - b[i]
-    res = res * res
-    return res
+    for k in range(dim):
+        res += a[i][k] * x[k]
+    res -= b[i]
+    return res * res
 
 
 def df(i, x):
     res = np.zeros(dim)
     # print(a.shape)
-    for k in range(1, dim):
+    const = 0
+    for t in range(dim):
+        const += a[i][t] * x[t]
+    const -= b[i]
+    for k in range(dim):
         # print('a: ',a.shape)
         # print('x: ',x.shape)
         # print('b: ',b.shape)
-        res[k] = 2 * a[i][k] * np.sqrt(f(i, x))
+        res[k] = 2 * a[i][k] * const
     return res
 
 
-iters = 100
+iters = 3
 L = 0.1
 # sag(iters, L)
-# sg(iters, L)
+#sg(iters, L)
 fg(iters, L)
 plt.legend()
 name = 'SAG-sim-' + str(iters) + '-' + str(L) + '.png'
