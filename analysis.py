@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from numpy import double
+import sympy
 
 data = pd.read_csv('data/phy_train.dat', sep='\t', header=None, usecols=[i for i in range(2, 80)])
 # data = data.transpose()
@@ -21,8 +22,9 @@ b = target.to_numpy()
 dim = a.shape[1]
 n = b.shape[0]
 
-n = 500
+n = 5000
 
+lam = 0.5
 
 def lipschitzEstimate(L, i, k, x):
     norm = pow(numpy.linalg.norm(df(i, x)), 2)
@@ -116,7 +118,7 @@ def fg(nIter, initalL):
         grd = (1/n)*grd
         # if updateL:
         #     lipConst = lipConst * pow(2, (-1 / n))
-        x = x - 1/k * grd
+        x = x - (1/L) * grd
 
         # calculate what we want to minimize:
         curr = 0
@@ -127,7 +129,7 @@ def fg(nIter, initalL):
     plt.semilogy(range(1, nIter+1), plotdata, label="FG")
     print('\r', nIter, 'FG iterations finished', end="")
     print('\n')
-    return x
+    return 1
 
 
 def f(i, x):
@@ -136,9 +138,12 @@ def f(i, x):
     for k in range(dim):
         res += a[i][k] * x[k]
     res -= b[i]
-    return res * res
+    res = res * res
+    res += lam/2*(pow(np.linalg.norm(x), 2))
+    return res
 
 
+# function f at sample i differentiated
 def df(i, x):
     res = np.zeros(dim)
     # print(a.shape)
@@ -150,16 +155,49 @@ def df(i, x):
         # print('a: ',a.shape)
         # print('x: ',x.shape)
         # print('b: ',b.shape)
-        res[k] = 2 * a[i][k] * const
+        res[k] = 2 * a[i][k] * const + 4*pow(np.linalg.norm(x), 2)*x[k]
+    return (1/n)*res
+
+def f2(x):
+    res = 0
+    for i in range(n):
+        temp = 0
+        for k in range(dim):
+            temp += a[i][k]*x[k]
+        temp -= b[i]
+        temp = temp*temp
+        res += temp
     return res
 
+def df2(x):
+    return sympy.diff(f2(x))
 
-iters = 3
-L = 0.1
-# sag(iters, L)
-#sg(iters, L)
-fg(iters, L)
-plt.legend()
-name = 'SAG-sim-' + str(iters) + '-' + str(L) + '.png'
-plt.savefig(name, dpi=600)
-plt.show()
+# iters = 10
+# L = 50
+# # sag(iters, L)
+# #sg(iters, L)
+# fg(iters, L)
+# plt.legend()
+# name = 'SAG-sim-' + str(iters) + '-' + str(L) + '.png'
+# plt.savefig(name, dpi=600)
+# plt.show()
+
+# g = 0.0
+# dg = np.zeros(dim)
+# x = np.zeros(dim)
+# #for i in range(dim):
+#     #x[i] = float(random.randint(-100, 100))
+# for i in range(n):
+#     g += f(i,x)
+#     dg += df(i,x)
+# g = g*(1/n)
+# dg = dg*(1/n)
+# print("f ", g)
+# print("df ", dg)
+# print("norm df ",np.linalg.norm(dg))
+
+# arr = sympy.symbols('y0:78')
+# print(arr)
+# f3 = f2(arr)
+
+# print(f3.sympy.diff(y))
