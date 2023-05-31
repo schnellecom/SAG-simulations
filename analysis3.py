@@ -28,7 +28,6 @@ n = b.shape[0]
 # for debugging only consider part of the samples
 n = 500
 
-lam = 1
 
 def lipschitzCheck(x, L, i):
     """
@@ -68,7 +67,7 @@ def dg(x):
     :param x: the vector where the gradient should be calculated at
     :returns: np.array: the gradient of g at x
     """
-    return np.array([(1/n)*np.sum([(2*(np.dot(a[i], x) - b[i])*a[i][k]) for i in range(n)])+(lam/2)*x[k] for k in range(dim)])
+    return np.array([(1/n)*np.sum([((2*np.dot(a[i], x) - b[i])*a[i][k]) for i in range(n)]) for k in range(dim)])
 
 
 def df(i, x):
