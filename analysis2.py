@@ -73,6 +73,7 @@ def dg(x):
 def df(i, x):
     """
     the gradient of f_i at vector x so f(i,x)
+    :param i: the sample to consider
     :param x: the vector where the gradient should be calculated at
     :returns: np.array: the gradient of f at x
     """
@@ -94,7 +95,7 @@ def fullGradient(iters, initialX, initialL):
 
     xk = initialX
     for k in range(iters):
-        xk = xk + L*dg(xk)
+        xk = xk - L*dg(xk)
         plotdata.append(g(xk))
 
     plt.plot(range(1, iters + 1), plotdata, label="FG")
