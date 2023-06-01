@@ -22,7 +22,7 @@ b = target.to_numpy()
 dim = a.shape[1]
 n = b.shape[0]
 
-n = 5000
+n = 500
 
 lam = 0.5
 
@@ -102,7 +102,7 @@ def sg(iter, initialL):
 
 
 def fg(nIter, initalL):
-    x = np.ones(dim)
+    x = np.zeros(dim)
     plotdata = []
     lipConst = initalL
 
@@ -139,7 +139,7 @@ def f(i, x):
         res += a[i][k] * x[k]
     res -= b[i]
     res = res * res
-    res += lam/2*(pow(np.linalg.norm(x), 2))
+    # res += lam/2*(pow(np.linalg.norm(x), 2))
     return res
 
 
@@ -155,8 +155,9 @@ def df(i, x):
         # print('a: ',a.shape)
         # print('x: ',x.shape)
         # print('b: ',b.shape)
-        res[k] = 2 * a[i][k] * const + 4*pow(np.linalg.norm(x), 2)*x[k]
-    return (1/n)*res
+        # res[k] = 2 * a[i][k] * const + 4*pow(np.linalg.norm(x), 2)*x[k]
+        res[k] = 2 * a[i][k] * const
+    return res
 
 def f2(x):
     res = 0
@@ -172,15 +173,15 @@ def f2(x):
 def df2(x):
     return sympy.diff(f2(x))
 
-# iters = 10
-# L = 50
-# # sag(iters, L)
-# #sg(iters, L)
-# fg(iters, L)
-# plt.legend()
-# name = 'SAG-sim-' + str(iters) + '-' + str(L) + '.png'
-# plt.savefig(name, dpi=600)
-# plt.show()
+iters = 10
+L = 50
+# sag(iters, L)
+#sg(iters, L)
+fg(iters, L)
+plt.legend()
+name = 'SAG-sim-' + str(iters) + '-' + str(L) + '.png'
+plt.savefig(name, dpi=600)
+plt.show()
 
 # g = 0.0
 # dg = np.zeros(dim)

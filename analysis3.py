@@ -40,6 +40,12 @@ def lipschitzCheck(x, L, i):
     """
 
 
+x = sympy.MatrixSymbol('X', 1, dim)
+ai = sympy.Matrix(a[0])
+
+g = sympy.transpose(x)*(a)-b[0]
+print(g)
+
 def g(x):
     """
     evaluates the function g at vector x
@@ -103,14 +109,14 @@ def fullGradient(iters, initialX, initialL):
     print('\n')
 
 
-iters = 10
-x = np.ones(dim)
-L = 0.00001
-
-fullGradient(iters, x, L)
-
-plt.legend()
-name = 'SAG-sim2-' + str(iters) + '-' + str(L) + '.png'
-plt.savefig(name, dpi=600)
-plt.show()
+# iters = 10
+# x = np.ones(dim)
+# L = 0.00001
+#
+# fullGradient(iters, x, L)
+#
+# plt.legend()
+# name = 'SAG-sim2-' + str(iters) + '-' + str(L) + '.png'
+# plt.savefig(name, dpi=600)
+# plt.show()
 

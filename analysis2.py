@@ -26,7 +26,7 @@ dim = a.shape[1]
 n = b.shape[0]
 
 # for debugging only consider part of the samples
-n = 500
+n = 5000
 
 lam = 1
 
@@ -59,7 +59,7 @@ def f(i, x):
     :param x:
     :returns float:
     """
-    return (np.dot(a[i], x) - b[i]) ** 2
+    return (np.dot(a[i], x) - b[i]) ** 2 + (lam/2)*np.linalg.norm(x)
 
 
 def dg(x):
@@ -114,4 +114,3 @@ plt.legend()
 name = 'SAG-sim2-' + str(iters) + '-' + str(L) + '.png'
 plt.savefig(name, dpi=600)
 plt.show()
-
