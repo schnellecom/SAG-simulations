@@ -196,13 +196,14 @@ def stochastic_gradient_descent(n_iter, initial_lipschitz_constant):
 
 N_ITERS = 20
 LIPSCHITZ = 1e12
+N_RUNS = 3
 
 plt.figure()
 
 fg_estimates = full_gradient_descent(N_ITERS, LIPSCHITZ)
 plt.plot(range(0, N_ITERS + 1), fg_estimates, label="FG")
 
-for run in range(1):
+for run in range(N_RUNS):
     sg_estimates = stochastic_gradient_descent(N_ITERS, LIPSCHITZ)
     plt.plot(range(0, N_ITERS + 1), sg_estimates, label=f'SG-{run}')
 
@@ -211,6 +212,8 @@ for run in range(1):
 
     sg_estimates = stochastic_averaging_gradient_descent_fancy_initialization(N_ITERS, LIPSCHITZ)
     plt.plot(range(0, N_ITERS + 1), sg_estimates, label=f'SAGf-{run}')
+
+    print(f'\ndone with {run} of the {N_RUNS} runs\n')
 
 plt.legend()
 name = 'SAG-sim4-' + str(N_ITERS) + '-' + str(LIPSCHITZ) + '.png'
