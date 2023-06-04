@@ -13,7 +13,7 @@ samples = samples.to_numpy()
 samples_dim = samples.shape[1]
 n_samples = samples.shape[0]
 
-n_samples = 5000
+# n_samples = 5000
 
 ## LABELS
 targets = pd.read_csv(file, sep='\t', header=None, usecols=[1])
