@@ -60,7 +60,7 @@ def f(i, x, lam):
     :param lam: the lambda of the regularizer
     :returns float: the function f_i evaluated at x
     """
-    return (np.dot(a[i], x) - b[i]) ** 2 + (lam/2)*np.linalg.norm(x)
+    return (np.dot(a[i], x) - b[i]) ** 2 + (lam/2)*np.linalg.norm(x)**2
 
 
 def dg(x, lam):
