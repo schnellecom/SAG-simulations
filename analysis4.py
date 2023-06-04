@@ -203,7 +203,7 @@ plt.figure()
 fg_estimates = full_gradient_descent(N_ITERS, LIPSCHITZ)
 plt.plot(range(0, N_ITERS + 1), fg_estimates, label="FG")
 
-for run in range(N_RUNS):
+for run in range(1, N_RUNS):
     sg_estimates = stochastic_gradient_descent(N_ITERS, LIPSCHITZ)
     plt.plot(range(0, N_ITERS + 1), sg_estimates, label=f'SG-{run}')
 
