@@ -82,6 +82,9 @@ def full_gradient_descent(n_iter, initial_lipschitz_constant):
 
         estimates.append(y)
 
+    print(f'\rdone full gradient:\t{f(x)}\t{n_iter + 1}', end="")
+    print('\n')
+
     return estimates
 
 
@@ -116,6 +119,9 @@ def stochastic_averaging_gradient_descent(n_iter, initial_lipschitz_constant):
         y = f(x)
 
         estimates.append(y)
+
+    print(f'\rdone stochastic averaging gradient:\t{f(x)}\t{n_iter + 1}', end="")
+    print('\n')
 
     return estimates
 
@@ -152,6 +158,9 @@ def stochastic_averaging_gradient_descent_fancy_initialization(n_iter, initial_l
 
         estimates.append(y)
 
+    print(f'\rdone stochastic averaging gradient fancy:\t{f(x)}\t{n_iter + 1}', end="")
+    print('\n')
+
     return estimates
 
 
@@ -178,6 +187,9 @@ def stochastic_gradient_descent(n_iter, initial_lipschitz_constant):
         y = f(x)
 
         estimates.append(y)
+
+    print(f'\rdone stochastic gradient:\t{f(x)}\t{n_iter + 1}', end="")
+    print('\n')
 
     return estimates
 
