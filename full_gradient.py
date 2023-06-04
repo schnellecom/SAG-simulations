@@ -129,9 +129,9 @@ def stochastic_averaging_gradient_descent_fancy_initialization(n_iter, initial_l
     x = np.ones(samples_dim)
     estimates.append(f(x))
 
-    gradient_updates = [(dfdx_i(j, x) - dfdx(x)) for j in range(n_samples)]
+    dy = dfdx(x)
+    gradient_updates = [(dfdx_i(j, x) - dy) for j in range(n_samples)]
     gradient_sum = np.sum(gradient_updates)
-
 
     # gradient descent loop
     for k in range(n_iter):
@@ -184,6 +184,8 @@ def stochastic_gradient_descent(n_iter, initial_lipschitz_constant):
 
 N_ITERS = 20
 LIPSCHITZ = 1e12
+
+plt.figure()
 
 fg_estimates = full_gradient_descent(N_ITERS, LIPSCHITZ)
 plt.plot(range(0, N_ITERS + 1), fg_estimates, label="FG")
