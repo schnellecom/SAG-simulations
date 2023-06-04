@@ -106,7 +106,7 @@ def stochastic_averaging_gradient_descent(n_iter, initial_lipschitz_constant):
         learning_rate = 1.0 / (L)
 
         # point to be evaluated
-        i = random.randint(0, n_samples)
+        i = random.randint(0, n_samples-1)
 
         gradient_sum -= gradient_updates[i]
         gradient_updates[i] = dfdx_i(i, x)
@@ -144,7 +144,7 @@ def stochastic_averaging_gradient_descent_fancy_initialization(n_iter, initial_l
         learning_rate = 1.0 / (L)
 
         # point to be evaluated
-        i = random.randint(0, n_samples)
+        i = random.randint(0, n_samples-1)
 
         gradient_sum -= gradient_updates[i]
         gradient_updates[i] = dfdx_i(i, x)
@@ -179,7 +179,7 @@ def stochastic_gradient_descent(n_iter, initial_lipschitz_constant):
         learning_rate = 1.0 / (L)
 
         # point to be evaluated
-        i = random.randint(0, n_samples)
+        i = random.randint(0, n_samples-1)
 
         gradient = dfdx_i(i, x)
         print(f'\rstochastic gradient:\t{np.linalg.norm(gradient)}\t{k+1}', end="")
